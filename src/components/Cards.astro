@@ -1,0 +1,102 @@
+---
+const images = [
+  { top: "0%", left: "0%", path: "docs/1" },
+  { top: "0%", left: "10%", path: "docs/2" },
+  { top: "0%", left: "60%", path: "docs/3" },
+  { top: "16%", left: "15%", path: "docs/4" },
+  { top: "16%", left: "40%", path: "docs/5" },
+  { top: "16%", left: "90%", path: "docs/6" },
+  { top: "32%", left: "50%", path: "docs/7" },
+  { top: "32%", left: "75%", path: "docs/8" },
+  { top: "48%", left: "0%", path: "docs/9" },
+  { top: "64%", left: "30%", path: "docs/10" },
+  { top: "64%", left: "50%", path: "docs/11" },
+  { top: "64%", left: "90%", path: "docs/12" },
+  { top: "80%", left: "20%", path: "docs/13" },
+  { top: "80%", left: "70%", path: "docs/14" },
+];
+---
+
+<script>
+  import { gsap } from "gsap";
+  const images = [
+    { top: "0%", left: "0%", path: "docs/1" },
+    { top: "0%", left: "10%", path: "docs/2" },
+    { top: "0%", left: "60%", path: "docs/3" },
+    { top: "16%", left: "15%", path: "docs/4" },
+    { top: "16%", left: "40%", path: "docs/5" },
+    { top: "16%", left: "90%", path: "docs/6" },
+    { top: "32%", left: "50%", path: "docs/7" },
+    { top: "32%", left: "75%", path: "docs/8" },
+    { top: "48%", left: "0%", path: "docs/9" },
+    { top: "64%", left: "30%", path: "docs/10" },
+    { top: "64%", left: "50%", path: "docs/11" },
+    { top: "64%", left: "90%", path: "docs/12" },
+    { top: "80%", left: "20%", path: "docs/13" },
+    { top: "80%", left: "70%", path: "docs/14" },
+  ];
+  const imgs = document.querySelectorAll(".img");
+
+  gsap.set(imgs, {
+    top: "45%",
+    left: "50%",
+    transform: "translate(-50%, -50%) scale(0)",
+  });
+
+  gsap.to(imgs, {
+    scale: 1,
+    width: "300px",
+    height: "400px",
+    stagger: 0.15,
+    duration: 0.75,
+    delay: 1,
+    ease: "power2.out",
+    onComplete: scatterAndShrink,
+  });
+
+  function scatterAndShrink() {
+    gsap.to(imgs, {
+      top: (i) => images[i].top,
+      left: (i) => images[i].left,
+      transform: "none",
+      width: "75px",
+      height: "100px",
+      stagger: 0.075,
+      duration: 0.75,
+      ease: "power2.out",
+    });
+  }
+</script>
+
+<main class="gallery">
+  <!-- bucle in astro -->
+
+  {
+    images.map((img) => (
+      <a href={img.path} class="img" transition:name={img.path}>
+        <img src="https://picsum.photos/200" alt="test" />
+      </a>
+    ))
+  }
+</main>
+<style>
+  .gallery {
+    width: 100%;
+    height: calc(100vh - 60px);
+    position: relative;
+  }
+
+  .img {
+    width: 75px;
+    height: 100px;
+    overflow: hidden;
+    position: absolute;
+    margin: 20px;
+  }
+
+  .img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+</style>
